@@ -68,7 +68,7 @@ public class CityServiceImple implements CityService {
 
         City city = optionalCity.get();
 
-        city.setEnable(true);
+        city.setEnable(false);
         cityRepository.save(city);
 
     }
@@ -82,6 +82,7 @@ public class CityServiceImple implements CityService {
         City city1 = CityMapper.mapToCity(city, new City());
         city1.setName(city1.getName().trim().toLowerCase());
 
+        city1.setEnable(true);
         return CityMapper.mapToCityDto(this.cityRepository.save(city1), new CityDto());
 
     }

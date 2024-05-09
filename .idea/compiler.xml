@@ -11,12 +11,14 @@
         <module name="configserver" />
         <module name="address" />
         <module name="userservice" />
+        <module name="apigatewayserver" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="address" options="-parameters" />
+      <module name="apigatewayserver" options="-parameters" />
       <module name="configserver" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
       <module name="userservice" options="-parameters" />
