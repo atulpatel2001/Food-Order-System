@@ -1,47 +1,43 @@
-package com.food.gateway.server.config.swagger;
-
-
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-
-@Configuration
-public class SwaggerUiConfig {
+//package com.food.gateway.server.config.swagger;
+//
+//
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import org.springdoc.core.models.GroupedOpenApi;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.cloud.gateway.route.RouteDefinition;
+//import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//
+//@Configuration
+//public class SwaggerUiConfig {
+//    private static final Logger LOGGER = LoggerFactory
+//            .getLogger(SwaggerUiConfig.class);
+//
+//    @Autowired
+//    RouteDefinitionLocator locator;
+//
 //    @Bean
-//    public UiConfiguration uiConfig(DiscoveryClient discoveryClient) throws URISyntaxException {
-//        Map<String, String> serviceUrls = getMicroserviceUrls(discoveryClient);
-//        UiConfiguration ui = new UiConfiguration(null);
-//        ui.setUrls(serviceUrls);
-//        return ui;
-//    }
-//
-//    private Map<String, String> getMicroserviceUrls(DiscoveryClient discoveryClient) throws URISyntaxException {
-//        // This logic is similar to your existing swaggerConfig method
-//        // to retrieve service names and construct URLs for each microservice
-//        URI uri = new URI("http://localhost:8074");
-//        String url = new URI(uri.getScheme(), uri.getAuthority(), null, null, null).toString();
-//        Map<String, String> swaggerUrls = new LinkedHashMap<>();
-//
-//        discoveryClient.getServices().stream().filter(s -> !s.startsWith("kube"))
-//                .forEach(serviceName -> {
-//                    Map<String, String> urlMap = new HashMap<>();
-//                    urlMap.put("name", serviceName);
-//                    urlMap.put("url", url + "/" + serviceName + "/v3/api-docs");
-//                    swaggerUrls.putAll(urlMap);
+//    public List<GroupedOpenApi> apis() {
+//        List<GroupedOpenApi> groups = new ArrayList<>();
+//        List<RouteDefinition> definitions = locator
+//                .getRouteDefinitions().collectList().block();
+//        assert definitions != null;
+//        definitions.stream().filter(routeDefinition -> routeDefinition
+//                        .getId()
+//                        .matches(".*-service"))
+//                .forEach(routeDefinition -> {
+//                    String name = routeDefinition.getId()
+//                            .replaceAll("-service", "");
+//                    groups.add(GroupedOpenApi.builder()
+//                            .pathsToMatch("/" + name + "/**").group(name).build());
 //                });
-//
-//        return swaggerUrls;
+//        return groups;
 //    }
-
-
-
-}
+//
+//}
