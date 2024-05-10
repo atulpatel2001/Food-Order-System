@@ -19,7 +19,7 @@ Create a food order system like a swigyy
                  port:-8073
                  this is service registry ,register all microservice in this code
 
-4)RabbitMq:- this rabbit mq is use for spring bus refresh a configration from github  port:-15672
+4)RabbitMq:- this rabbit mq is use for spring bus refresh a configration from github  port:-15672                               docker run -d -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.13-management
 
 5)Address Management sevice:-
                     Db Config:- docker run -d --name addressservicedb -e POSTGRES_PASSWORD=root123 -p 5434:5432 -e POSTGRES_DB=addressservicedb -d postgres
