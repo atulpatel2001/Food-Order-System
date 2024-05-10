@@ -13,6 +13,6 @@ public interface StateRepository extends JpaRepository<State,Long> {
     @Query("SELECT s FROM State s WHERE s.enable = true and s.id =:stateId")
     Optional<State> findStateById(Long stateId);
     @Query("SELECT s FROM State s WHERE s.enable = true and s.countryId =:countryId")
-    Optional<State> findStateByCountryId(Long countryId);
+    Optional<List<State>> findStateByCountryId(Long countryId);
     Optional<State> findByName(String name);
 }

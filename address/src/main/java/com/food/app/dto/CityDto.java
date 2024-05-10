@@ -24,4 +24,8 @@ public class CityDto {
     @NotEmpty(groups = {Default.class, Create.class, Update.class}, message = "City name can not be null or empty")
     @Pattern(regexp = "^[a-zA-Z]+$", groups = {Default.class, Create.class, Update.class}, message = "Only character values are allowed")
     private String name;
+
+    @Schema(description = "District Id For City", example = "1")
+    @NotNull(groups = {Default.class, Create.class, Update.class}, message = "District Id is Must Be Require!")
+    private Long districtId;
 }

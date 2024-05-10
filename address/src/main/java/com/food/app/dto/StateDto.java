@@ -21,7 +21,7 @@ public class StateDto {
     @NotNull(groups = Update.class, message = "ID is required for update")
     private Long id;
 
-    @Schema(description = "Name of the State", example = "india")
+    @Schema(description = "Name of the State", example = "Gujarat")
     @NotEmpty(groups = {Default.class, Create.class, Update.class}, message = "State name can not be null or empty")
     @Pattern(regexp = "^[a-zA-Z]+$", groups = {Default.class, Create.class, Update.class}, message = "Only character values are allowed")
     private String name;

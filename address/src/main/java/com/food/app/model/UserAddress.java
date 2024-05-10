@@ -4,19 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "tbl_city")
+@Table(name = "tbl_user_address")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class City extends BaseEntity{
+public class UserAddress extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-
-    private Long districtId;
-
+    private String userId;
+    private Long addressId;
     private boolean enable;
+
 }

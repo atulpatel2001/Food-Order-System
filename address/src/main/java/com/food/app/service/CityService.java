@@ -23,4 +23,6 @@ public interface CityService {
     CityDto addCity(CityDto city);
 
     boolean updateCity(CityDto city);
+
+    List<CityDto> findCityByDistrictId(Long districtId);
 }

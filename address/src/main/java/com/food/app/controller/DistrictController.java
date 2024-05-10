@@ -1,20 +1,19 @@
 package com.food.app.controller;
 
 import com.food.app.constant.Constant;
-import com.food.app.dto.CityDto;
 import com.food.app.dto.ErrorResponseDto;
+import com.food.app.dto.ResponseDto;
+import com.food.app.dto.DistrictDto;
 import com.food.app.exception.AllDataNotFoundException;
 import com.food.app.exception.AlreadyExistsException;
-import com.food.app.dto.ResponseDto;
 import com.food.app.exception.ResourceNotFoundException;
-import com.food.app.service.CityService;
+import com.food.app.service.DistrictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,27 +27,27 @@ import java.util.List;
 @RestController
 
 
-@RequestMapping(value = "/city", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/district", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 @Tag(
-        name = "CRUD REST APIs for City",
-        description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE City details"
+        name = "CRUD REST APIs for District",
+        description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE District details"
 )
-public class CityController {
+public class DistrictController {
 
     @Autowired
-    private CityService cityService;
+    private DistrictService districtService;
 
 
     /**
-     * this endpoint provide a new city to application database
+     * this endpoint provide a new district to application database
      *
-     * @param cityDto
+     * @param districtDto
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Add New City REST API",
-            description = "REST API to Add New City"
+            summary = "Add New District REST API",
+            description = "REST API to Add New District"
     )
     @ApiResponses({
             @ApiResponse(
@@ -66,10 +65,10 @@ public class CityController {
     )
 
     @PostMapping("/")
-    public ResponseEntity<?> createCity(@Validated(CityDto.Create.class) @RequestBody CityDto cityDto) {
+    public ResponseEntity<?> createDistrict(@Validated(DistrictDto.Create.class) @RequestBody DistrictDto districtDto) {
         try {
-            this.cityService.addCity(cityDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_201, Constant.MESSAGE_CITY_201));
+            this.districtService.addDistrict(districtDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_201, Constant.MESSAGE_DISTRICT_201));
         } catch (AlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 
@@ -81,14 +80,14 @@ public class CityController {
 
 
     /**
-     * this endpoint provide a Fetch city from database
+     * this endpoint provide a Fetch district from database
      *
-     * @param cityId
+     * @param districtId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch City By Id REST API",
-            description = "REST API to Fetch City By Id"
+            summary = "Fetch District By Id REST API",
+            description = "REST API to Fetch District By Id"
     )
     @ApiResponses({
             @ApiResponse(
@@ -101,12 +100,12 @@ public class CityController {
     }
     )
     @GetMapping("/")
-    public ResponseEntity<?> getCityById(@RequestParam("id")
-                                         @NotNull(message = "City Id can not be null or empty")
-                                         Long cityId) {
+    public ResponseEntity<?> getDistrictById(@RequestParam("id")
+                                         @NotNull(message = "District Id can not be null or empty")
+                                         Long districtId) {
         try {
-            CityDto city = this.cityService.getCityById(cityId);
-            return ResponseEntity.status(HttpStatus.OK).body(city);
+            DistrictDto district = this.districtService.getDistrictById(districtId);
+            return ResponseEntity.status(HttpStatus.OK).body(district);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -115,16 +114,15 @@ public class CityController {
     }
 
 
-
     /**
-     * this endpoint provide a Fetch city by districtId from database
+     * this endpoint provide a Fetch  district by stateId id from database
      *
-     * @param
+     * @param stateId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch City By districtId REST API",
-            description = "REST API to Fetch City By districtId"
+            summary = "Fetch District By stateId  REST API",
+            description = "REST API to Fetch District By stateId "
     )
     @ApiResponses({
             @ApiResponse(
@@ -136,30 +134,29 @@ public class CityController {
             )
     }
     )
-    @GetMapping("/districts")
-    public ResponseEntity<?> getCitiesByDistrictId(@RequestParam("districtId")
-                                         @NotNull(message = "district Id can not be null or empty")
-                                         Long districtId) {
+    @GetMapping("/state")
+    public ResponseEntity<?> getDistrictByStateId(@RequestParam("id")
+                                          @NotNull(message = "State Id can not be null or empty")
+                                          Long stateId) {
         try {
-            List<CityDto> dtos= this.cityService.findCityByDistrictId(districtId);
-            return ResponseEntity.status(HttpStatus.OK).body(dtos);
-        } catch (AllDataNotFoundException e) {
+
+            return ResponseEntity.status(HttpStatus.OK).body(this.districtService.getDistrictByStateId(stateId));
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(Constant.STATUS_400, Constant.MESSAGE_400));
         }
     }
 
-
     /**
-     * this endpoint is use for delete city from database
+     * this endpoint is use for delete district from database
      *
-     * @param cityId
+     * @param districtId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
             summary = "delete By Id REST API",
-            description = "REST API to delete City By Id"
+            description = "REST API to delete District By Id"
     )
     @ApiResponses({
             @ApiResponse(
@@ -186,9 +183,9 @@ public class CityController {
     }
     )
     @DeleteMapping("/")
-    public ResponseEntity<?> deleteCity(@RequestParam("cityId") @NotNull(message = "City Id can not be null or empty") Long cityId) {
+    public ResponseEntity<?> deleteDistrict(@RequestParam("districtId") @NotNull(message = "District Id can not be null or empty") Long districtId) {
         try {
-            this.cityService.deleteCity(cityId);
+            this.districtService.deleteDistrict(districtId);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_200, Constant.MESSAGE_200));
 
         } catch (ResourceNotFoundException e) {
@@ -199,13 +196,13 @@ public class CityController {
     }
 
     /**
-     * this endpoint provide a Fetch all  city from database
+     * this endpoint provide a Fetch all  district from database
      *
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch All City  REST API",
-            description = "REST API to Fetch All City"
+            summary = "Fetch All District  REST API",
+            description = "REST API to Fetch All District"
     )
     @ApiResponses({
             @ApiResponse(
@@ -217,11 +214,11 @@ public class CityController {
             )
     }
     )
-    @GetMapping("/cities")
+    @GetMapping("/districts")
     public ResponseEntity<?> getAllCities() {
         try {
-            List<CityDto> allCity = this.cityService.getAllCity();
-            return ResponseEntity.status(HttpStatus.OK).body(allCity);
+            List<DistrictDto> allDistrict = this.districtService.getAllDistrict();
+            return ResponseEntity.status(HttpStatus.OK).body(allDistrict);
         } catch (AllDataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -231,14 +228,14 @@ public class CityController {
 
 
     /**
-     * this endpoint is use for update city from database
+     * this endpoint is use for update district from database
      *
-     * @param cityDto
+     * @param districtDto
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "update city REST API",
-            description = "REST API to update City"
+            summary = "update district REST API",
+            description = "REST API to update District"
     )
     @ApiResponses({
             @ApiResponse(
@@ -265,9 +262,9 @@ public class CityController {
     }
     )
     @PutMapping("/")
-    public ResponseEntity<?> updateCity( @Validated(CityDto.Update.class) @RequestBody CityDto cityDto) {
+    public ResponseEntity<?> updateDistrict( @Validated(DistrictDto.Update.class) @RequestBody DistrictDto districtDto) {
         try {
-            boolean b = this.cityService.updateCity(cityDto);
+            boolean b = this.districtService.updateDistrict(districtDto);
             if (b) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_200, Constant.MESSAGE_200));
 

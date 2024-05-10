@@ -7,6 +7,7 @@ import com.food.app.exception.ResourceNotFoundException;
 
 import com.food.app.mapper.CountryMapper;
 import com.food.app.model.Country;
+
 import com.food.app.repository.CountryRepository;
 import com.food.app.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CountryServiceImple implements CountryService {
         Optional<Country> CountryOptional = this.CountryRepository.findCountryById(CountryId);
 
         if (CountryOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Country", "Country id", CountryId.toString());
+            throw new ResourceNotFoundException("country", "country id", CountryId.toString());
         }
 
         return CountryMapper.mapToCountryDto(CountryOptional.get(), new CountryDto());
@@ -39,7 +40,7 @@ public class CountryServiceImple implements CountryService {
     public CountryDto getCountryByName(String name) {
         Optional<Country> CountryOptional = this.CountryRepository.findByName(name.toLowerCase());
         if (CountryOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Country", "Country name", name);
+            throw new ResourceNotFoundException("country", "country name", name);
         }
         return CountryMapper.mapToCountryDto(CountryOptional.get(), new CountryDto());
     }
@@ -54,7 +55,7 @@ public class CountryServiceImple implements CountryService {
 
         List<CountryDto> CountryDtos = new ArrayList<>();
 
-        optionalCountries.get().forEach(Country -> CountryDtos.add(CountryMapper.mapToCountryDto(Country, new CountryDto())));
+        optionalCountries.get().forEach(country -> CountryDtos.add(CountryMapper.mapToCountryDto(country, new CountryDto())));
 
         return CountryDtos;
     }
@@ -64,43 +65,43 @@ public class CountryServiceImple implements CountryService {
         Optional<Country> optionalCountry = this.CountryRepository.findById(id);
 
         if (optionalCountry.isEmpty()) {
-            throw new ResourceNotFoundException("Country", "Country id", id.toString());
+            throw new ResourceNotFoundException("country", "country id", id.toString());
         }
 
-        Country Country = optionalCountry.get();
+        Country country = optionalCountry.get();
 
-        Country.setEnable(false);
-        CountryRepository.save(Country);
+        country.setEnable(false);
+        CountryRepository.save(country);
 
     }
 
     @Override
-    public CountryDto addCountry(CountryDto Country) {
-        Optional<Country> optionalCountry = this.CountryRepository.findByName(Country.getName().trim().toLowerCase());
+    public CountryDto addCountry(CountryDto country) {
+        Optional<Country> optionalCountry = this.CountryRepository.findByName(country.getName().trim().toLowerCase());
         if (optionalCountry.isPresent()) {
-            throw new AlreadyExistsException("This Country is Already register With This Name");
+            throw new AlreadyExistsException("This country is Already register With This Name "+country.getName());
         }
-        Country Country1 = CountryMapper.mapToCountry(Country, new Country());
-        Country1.setName(Country1.getName().trim().toLowerCase());
+        Country country1 = CountryMapper.mapToCountry(country, new Country());
+        country1.setName(country1.getName().trim().toLowerCase());
 
-        Country1.setEnable(true);
-        return CountryMapper.mapToCountryDto(this.CountryRepository.save(Country1), new CountryDto());
+        country1.setEnable(true);
+        return CountryMapper.mapToCountryDto(this.CountryRepository.save(country1), new CountryDto());
 
     }
 
     @Override
-    public boolean updateCountry(CountryDto Country) {
+    public boolean updateCountry(CountryDto country) {
         boolean f = false;
-        Optional<Country> optionalCountry = this.CountryRepository.findById(Country.getId());
+        Optional<Country> optionalCountry = this.CountryRepository.findById(country.getId());
         if (optionalCountry.isEmpty()) {
             f = false;
-            throw new ResourceNotFoundException("Country", "id", Country.getId().toString());
-        } else if (this.CountryRepository.findByName(Country.getName().trim().toLowerCase()).isPresent()) {
+            throw new ResourceNotFoundException("country", "id", country.getId().toString());
+        } else if (this.CountryRepository.findByName(country.getName().trim().toLowerCase()).isPresent()) {
             f = false;
-            throw new AlreadyExistsException("Country is Already register With This Name");
+            throw new AlreadyExistsException("country is Already register With This Name");
         } else {
             Country oldCountry = optionalCountry.get();
-            oldCountry.setName(Country.getName().trim().toLowerCase());
+            oldCountry.setName(country.getName().trim().toLowerCase());
             this.CountryRepository.save(oldCountry);
             f = true;
         }

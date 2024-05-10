@@ -8,7 +8,7 @@ public interface StateService {
 
 
     StateDto getStateById(Long StateId);
-    StateDto getStateByCountryId(Long countryId);
+    List<StateDto> getStateByCountryId(Long countryId);
     StateDto getStateByName(String name);
 
     List<StateDto> getAllState();

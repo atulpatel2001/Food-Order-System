@@ -24,7 +24,7 @@ public class CityServiceImple implements CityService {
     @Override
     public CityDto getCityById(Long cityId) {
 
-        Optional<City> cityOptional = this.cityRepository.findById(cityId);
+        Optional<City> cityOptional = this.cityRepository.findCityById(cityId);
 
         if (cityOptional.isEmpty()) {
             throw new ResourceNotFoundException("City", "city id", cityId.toString());
@@ -48,7 +48,7 @@ public class CityServiceImple implements CityService {
         Optional<List<City>> optionalCities = this.cityRepository.findDistinctFirstByIdAndEnableTrue();
 
         if (optionalCities.isEmpty()) {
-            throw new AllDataNotFoundException("Cities");
+            throw new AllDataNotFoundException("in System not have any city");
         }
 
         List<CityDto> cityDtos = new ArrayList<>();
@@ -77,7 +77,7 @@ public class CityServiceImple implements CityService {
     public CityDto addCity(CityDto city) {
         Optional<City> optionalCity = this.cityRepository.findByName(city.getName().trim().toLowerCase());
         if (optionalCity.isPresent()) {
-            throw new AlreadyExistsException("This City is Already register With This Name");
+            throw new AlreadyExistsException("This City is Already register With This Name "+city.getName());
         }
         City city1 = CityMapper.mapToCity(city, new City());
         city1.setName(city1.getName().trim().toLowerCase());
@@ -105,5 +105,20 @@ public class CityServiceImple implements CityService {
         }
         return f;
 
+    }
+
+    @Override
+    public List<CityDto> findCityByDistrictId(Long districtId) {
+        Optional<List<City>> cityByDistrictId = this.cityRepository.findCityByDistrictId(districtId);
+
+        if (cityByDistrictId.isEmpty()) {
+            throw new AllDataNotFoundException("No City Available From This District in system");
+        }
+
+        List<CityDto> cityDtos = new ArrayList<>();
+
+        cityByDistrictId.get().forEach(city -> cityDtos.add(CityMapper.mapToCityDto(city, new CityDto())));
+
+        return cityDtos;
     }
 }

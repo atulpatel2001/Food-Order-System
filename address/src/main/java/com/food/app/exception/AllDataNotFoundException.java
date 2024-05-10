@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class AllDataNotFoundException extends RuntimeException{
 
     public AllDataNotFoundException(String resourceName){
-        super(String.format("No %s found in the database. Please contact the administrator to add %s to the system.",resourceName,resourceName));
+        super(String.format("%s , Please contact the administrator to add %s to the system.",resourceName));
     }
 }

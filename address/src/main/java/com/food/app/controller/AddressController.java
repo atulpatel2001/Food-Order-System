@@ -1,21 +1,21 @@
 package com.food.app.controller;
 
 import com.food.app.constant.Constant;
-import com.food.app.dto.CityDto;
+import com.food.app.dto.AddressDto;
 import com.food.app.dto.ErrorResponseDto;
+import com.food.app.dto.ResponseDto;
 import com.food.app.exception.AllDataNotFoundException;
 import com.food.app.exception.AlreadyExistsException;
-import com.food.app.dto.ResponseDto;
 import com.food.app.exception.ResourceNotFoundException;
-import com.food.app.service.CityService;
+import com.food.app.service.AddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,27 +28,27 @@ import java.util.List;
 @RestController
 
 
-@RequestMapping(value = "/city", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/address", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 @Tag(
-        name = "CRUD REST APIs for City",
-        description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE City details"
+        name = "CRUD REST APIs for Address",
+        description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Address details"
 )
-public class CityController {
+public class AddressController {
 
     @Autowired
-    private CityService cityService;
+    private AddressService addressService;
 
 
     /**
-     * this endpoint provide a new city to application database
+     * this endpoint provide a new address to application database
      *
-     * @param cityDto
+     * @param addressDto
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Add New City REST API",
-            description = "REST API to Add New City"
+            summary = "Add New Address REST API",
+            description = "REST API to Add New Address"
     )
     @ApiResponses({
             @ApiResponse(
@@ -66,13 +66,10 @@ public class CityController {
     )
 
     @PostMapping("/")
-    public ResponseEntity<?> createCity(@Validated(CityDto.Create.class) @RequestBody CityDto cityDto) {
+    public ResponseEntity<?> createAddress(@Validated(AddressDto.Create.class) @RequestBody AddressDto addressDto) {
         try {
-            this.cityService.addCity(cityDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_201, Constant.MESSAGE_CITY_201));
-        } catch (AlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
+            this.addressService.addAddress(addressDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_201, Constant.MESSAGE_ADDRESS_201));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(Constant.STATUS_400, Constant.MESSAGE_400));
 
@@ -81,14 +78,14 @@ public class CityController {
 
 
     /**
-     * this endpoint provide a Fetch city from database
+     * this endpoint provide a Fetch address from database
      *
-     * @param cityId
+     * @param addressId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch City By Id REST API",
-            description = "REST API to Fetch City By Id"
+            summary = "Fetch Address By Id REST API",
+            description = "REST API to Fetch Address By Id"
     )
     @ApiResponses({
             @ApiResponse(
@@ -101,12 +98,12 @@ public class CityController {
     }
     )
     @GetMapping("/")
-    public ResponseEntity<?> getCityById(@RequestParam("id")
-                                         @NotNull(message = "City Id can not be null or empty")
-                                         Long cityId) {
+    public ResponseEntity<?> getAddressById(@RequestParam("id")
+                                         @NotNull(message = "Address Id can not be null or empty")
+                                         Long addressId) {
         try {
-            CityDto city = this.cityService.getCityById(cityId);
-            return ResponseEntity.status(HttpStatus.OK).body(city);
+            AddressDto address = this.addressService.getAddressById(addressId);
+            return ResponseEntity.status(HttpStatus.OK).body(address);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -115,16 +112,15 @@ public class CityController {
     }
 
 
-
     /**
-     * this endpoint provide a Fetch city by districtId from database
+     * this endpoint provide a Fetch  address by areaId from database
      *
-     * @param
+     * @param areaId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch City By districtId REST API",
-            description = "REST API to Fetch City By districtId"
+            summary = "Fetch Address By City Id REST API",
+            description = "REST API to Fetch Address By City Id"
     )
     @ApiResponses({
             @ApiResponse(
@@ -136,14 +132,13 @@ public class CityController {
             )
     }
     )
-    @GetMapping("/districts")
-    public ResponseEntity<?> getCitiesByDistrictId(@RequestParam("districtId")
-                                         @NotNull(message = "district Id can not be null or empty")
-                                         Long districtId) {
+    @GetMapping("/area")
+    public ResponseEntity<?> getAddressByAddressId(@RequestParam("areaId")
+                                          @NotNull(message = "Area Id can not be null or empty")
+                                          Long areaId) {
         try {
-            List<CityDto> dtos= this.cityService.findCityByDistrictId(districtId);
-            return ResponseEntity.status(HttpStatus.OK).body(dtos);
-        } catch (AllDataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(this.addressService.getAddressByAreaId(areaId));
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(Constant.STATUS_400, Constant.MESSAGE_400));
@@ -151,15 +146,17 @@ public class CityController {
     }
 
 
+
+
     /**
-     * this endpoint is use for delete city from database
+     * this endpoint is use for delete address from database
      *
-     * @param cityId
+     * @param addressId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
             summary = "delete By Id REST API",
-            description = "REST API to delete City By Id"
+            description = "REST API to delete Address By Id"
     )
     @ApiResponses({
             @ApiResponse(
@@ -186,9 +183,9 @@ public class CityController {
     }
     )
     @DeleteMapping("/")
-    public ResponseEntity<?> deleteCity(@RequestParam("cityId") @NotNull(message = "City Id can not be null or empty") Long cityId) {
+    public ResponseEntity<?> deleteAddress(@RequestParam("addressId") @NotNull(message = "Address Id can not be null or empty") Long addressId) {
         try {
-            this.cityService.deleteCity(cityId);
+            this.addressService.deleteAddress(addressId);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_200, Constant.MESSAGE_200));
 
         } catch (ResourceNotFoundException e) {
@@ -199,13 +196,13 @@ public class CityController {
     }
 
     /**
-     * this endpoint provide a Fetch all  city from database
+     * this endpoint provide a Fetch all  address from database
      *
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch All City  REST API",
-            description = "REST API to Fetch All City"
+            summary = "Fetch All Address  REST API",
+            description = "REST API to Fetch All Address"
     )
     @ApiResponses({
             @ApiResponse(
@@ -217,11 +214,11 @@ public class CityController {
             )
     }
     )
-    @GetMapping("/cities")
-    public ResponseEntity<?> getAllCities() {
+    @GetMapping("/address")
+    public ResponseEntity<?> getAllAddress() {
         try {
-            List<CityDto> allCity = this.cityService.getAllCity();
-            return ResponseEntity.status(HttpStatus.OK).body(allCity);
+            List<AddressDto> allAddress = this.addressService.getAllAddress();
+            return ResponseEntity.status(HttpStatus.OK).body(allAddress);
         } catch (AllDataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -231,14 +228,14 @@ public class CityController {
 
 
     /**
-     * this endpoint is use for update city from database
+     * this endpoint is use for update address from database
      *
-     * @param cityDto
+     * @param addressDto
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "update city REST API",
-            description = "REST API to update City"
+            summary = "update address REST API",
+            description = "REST API to update Address"
     )
     @ApiResponses({
             @ApiResponse(
@@ -265,9 +262,9 @@ public class CityController {
     }
     )
     @PutMapping("/")
-    public ResponseEntity<?> updateCity( @Validated(CityDto.Update.class) @RequestBody CityDto cityDto) {
+    public ResponseEntity<?> updateAddress( @Validated(AddressDto.Update.class) @RequestBody AddressDto addressDto) {
         try {
-            boolean b = this.cityService.updateCity(cityDto);
+            boolean b = this.addressService.updateAddress(addressDto);
             if (b) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_200, Constant.MESSAGE_200));
 
