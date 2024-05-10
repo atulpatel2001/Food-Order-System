@@ -73,14 +73,19 @@ public class UserController {
     }
     )
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createUser(@Valid @RequestBody UserDto userDto) {
-        boolean isRegistered = this.keyCloakAdminClientToUserService.createKeyCloakUser(userDto);
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto) {
+      try {
+          boolean isRegistered = this.keyCloakAdminClientToUserService.createKeyCloakUser(userDto);
 
-        if (isRegistered) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(UserConstant.STATUS_201, UserConstant.MESSAGE_201));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(UserConstant.STATUS_400, UserConstant.MESSAGE_400));
-        }
+          if (isRegistered) {
+              return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(UserConstant.STATUS_201, UserConstant.MESSAGE_201));
+          } else {
+              return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDto(UserConstant.STATUS_400, UserConstant.MESSAGE_400));
+          }
+      }
+      catch (UserAlreadyExistsException e){
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+      }
     }
 
 
@@ -115,6 +120,10 @@ public class UserController {
             logger.warn("invalid account. User probably hasn't verified email.", ex);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDto(UserConstant.STATUS_401, UserConstant.MESSAGE_401));
         }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDto(UserConstant.STATUS_401, UserConstant.MESSAGE_401));
+
+        }
 
     }
 
@@ -144,9 +153,9 @@ public class UserController {
         try {
             boolean b = keyCloakAdminClientToUserService.deleteUser(userId);
             if (b) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(UserConstant.STATUS_201, UserConstant.MESSAGE_201));
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(UserConstant.STATUS_200, UserConstant.MESSAGE_200));
             } else {
-                return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(UserConstant.STATUS_417, UserConstant.MESSAGE_201));
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(UserConstant.STATUS_417, UserConstant.MESSAGE_417_DELETE));
             }
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
