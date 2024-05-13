@@ -6,7 +6,7 @@ import com.food.app.model.UserAddress;
 
 public class UserAddressMapper {
 
-    public static UserAddress mapToUserAddress(UserAddressDto userAddressDto, UserAddress userAddress){
+    public static UserAddress mapToUserAddress(UserAddressDto userAddressDto, UserAddress userAddress) {
         userAddress.setAddressId(userAddress.getAddressId());
         userAddress.setId(userAddressDto.getId());
         userAddress.setUserId(userAddressDto.getUserId());
@@ -14,11 +14,11 @@ public class UserAddressMapper {
     }
 
 
-public static AddressDto mapToAddressDto(UserAddressDto userAddressDto,AddressDto addressDto){
+    public static AddressDto mapToAddressDto(UserAddressDto userAddressDto, AddressDto addressDto) {
         addressDto.setAddress1(userAddressDto.getAddress1());
         addressDto.setAddress2(userAddressDto.getAddress2());
         addressDto.setAreaId(userAddressDto.getAreaId());
-   return addressDto;
-}
+        return addressDto;
+    }
 
 }

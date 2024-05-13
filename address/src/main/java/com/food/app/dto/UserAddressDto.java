@@ -27,7 +27,7 @@ public class UserAddressDto {
 
 
     @Schema(description = "Address Line One", example = "Near This and other")
-    @NotEmpty(groups = {Default.class, AddressDto.Create.class, AddressDto.Update.class}, message = "Line1 name can not be null or empty")
+    @NotEmpty(groups = {Default.class, Create.class, Update.class}, message = "Line1 name can not be null or empty")
     private String address1;
 
 
@@ -35,6 +35,6 @@ public class UserAddressDto {
     private String address2;
 
     @Schema(description = "Area Id For Address", example = "1")
-    @NotNull(groups = {Default.class, AddressDto.Create.class, AddressDto.Update.class}, message = "Area Id is Must Be Require!")
+    @NotNull(groups = {Default.class,Create.class,Update.class}, message = "Area Id is Must Be Require!")
     private Long areaId;
 }
