@@ -46,16 +46,16 @@ public class UserAddressServiceImple implements UserAddressService {
     @Override
     public List<AddressDataDto> getAllUserAddress() {
         List<AddressDataDto> addressDataDtos = null;
-            Optional<List<UserAddress>> userAddresses = this.userAddressRepository.findDistinctFirstByIdAndEnableTrue();
-            if (userAddresses.isPresent()) {
-                addressDataDtos = new ArrayList<>();
+        Optional<List<UserAddress>> userAddresses = this.userAddressRepository.findDistinctFirstByIdAndEnableTrue();
+        if (userAddresses.isPresent()) {
+            addressDataDtos = new ArrayList<>();
 
-                for (UserAddress userAddress :
-                        userAddresses.get()) {
-                    AddressDataDto addressDataDto = mapToAddressDataDto(userAddress);
-                    addressDataDtos.add(addressDataDto);
-                }
+            for (UserAddress userAddress :
+                    userAddresses.get()) {
+                AddressDataDto addressDataDto = mapToAddressDataDto(userAddress);
+                addressDataDtos.add(addressDataDto);
             }
+        }
         return addressDataDtos;
     }
 
@@ -72,7 +72,7 @@ public class UserAddressServiceImple implements UserAddressService {
             AddressDto addressDto = UserAddressMapper.mapToAddressDto(userAddress, new AddressDto());
             Address address = AddressMapper.mapToAddress(addressDto, new Address());
             address.setEnable(true);
-            Address save = this.addressRepository.save(address);
+            AddressDto save = this.addressService.addAddress(AddressMapper.mapToAddressDto(address, new AddressDto()));
             UserAddress userAddress1 = UserAddressMapper.mapToUserAddress(userAddress, new UserAddress());
             userAddress1.setAddressId(save.getId());
             userAddress1.setEnable(true);
@@ -89,19 +89,19 @@ public class UserAddressServiceImple implements UserAddressService {
 
     private AddressDataDto mapToAddressDataDto(UserAddress userAddress) {
         AddressDataDto addressDataDto = new AddressDataDto();
-         addressDataDto.setPersonId(userAddress.getUserId());
-         AddressDto address = this.addressService.getAddressById(userAddress.getAddressId());
-         AreaDto area = this.areaService.getAreaById(address.getAreaId());
-         CityDto city = this.cityService.getCityById(area.getCityId());
-         DistrictDto district = this.districtService.getDistrictById(city.getDistrictId());
-         StateDto state = this.stateService.getStateById(district.getStateId());
-         CountryDto country = this.countryService.getCountryById(state.getCountryId());
-         addressDataDto.setAddressDto(address);
-         addressDataDto.setAreaDto(area);
-         addressDataDto.setCityDto(city);
-         addressDataDto.setDistrictDto(district);
-         addressDataDto.setStateDto(state);
-         addressDataDto.setCountryDto(country);
+        addressDataDto.setPersonId(userAddress.getUserId());
+        AddressDto address = this.addressService.getAddressById(userAddress.getAddressId());
+        AreaDto area = this.areaService.getAreaById(address.getAreaId());
+        CityDto city = this.cityService.getCityById(area.getCityId());
+        DistrictDto district = this.districtService.getDistrictById(city.getDistrictId());
+        StateDto state = this.stateService.getStateById(district.getStateId());
+        CountryDto country = this.countryService.getCountryById(state.getCountryId());
+        addressDataDto.setAddressDto(address);
+        addressDataDto.setAreaDto(area);
+        addressDataDto.setCityDto(city);
+        addressDataDto.setDistrictDto(district);
+        addressDataDto.setStateDto(state);
+        addressDataDto.setCountryDto(country);
         return addressDataDto;
     }
 
