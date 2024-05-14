@@ -4,11 +4,10 @@ import com.food.app.dto.*;
 import com.food.app.exception.AllDataNotFoundException;
 import com.food.app.exception.ResourceNotFoundException;
 import com.food.app.mapper.AddressMapper;
-import com.food.app.mapper.UserAddressMapper;
+import com.food.app.mapper.DeliveryAgentAddressMapper;
 import com.food.app.model.Address;
-import com.food.app.model.UserAddress;
-import com.food.app.repository.AddressRepository;
-import com.food.app.repository.UserAddressRepository;
+import com.food.app.model.DeliveryAgentAddress;
+import com.food.app.repository.DeliveryAgentAddressRepository;
 import com.food.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserAddressServiceImple implements UserAddressService {
+public class DeliveryAgentAddressServiceImple implements DeliveryAgentAddressService {
 
     @Autowired
-    private UserAddressRepository userAddressRepository;
+    private DeliveryAgentAddressRepository deliveryAgentAddressRepository;
 
     @Autowired
     private AddressService addressService;
@@ -42,25 +41,25 @@ public class UserAddressServiceImple implements UserAddressService {
 
 
     /**
-     * purpose of this function is get User Address By User Id
-     * @param userId |
+     * purpose of this function is get DeliveryAgent Address By DeliveryAgentId
+     * @param deliveryAgentId |
      * @return  List<Object>
      */
     @Override
-    public List<AddressDataDto> getUserAddressByUserId(String userId) {
+    public List<AddressDataDto> getDeliveryAgentAddressByDeliveryAgentId(String deliveryAgentId) {
 
         List<AddressDataDto> addressDataDtoList = null;
-        Optional<List<UserAddress>> userAddresses = this.userAddressRepository.findAddressByUserId(userId);
-        if (userAddresses.isPresent()) {
+        Optional<List<DeliveryAgentAddress>> deliveryAgentAddresses = this.deliveryAgentAddressRepository.findAddressByDeliveryAgentId(deliveryAgentId);
+        if (deliveryAgentAddresses.isPresent()) {
             addressDataDtoList = new ArrayList<>();
 
-            for (UserAddress userAddress :
-                    userAddresses.get()) {
-                AddressDataDto addressDataDto = mapToAddressDataDto(userAddress);
+            for (DeliveryAgentAddress deliveryAgentAddress :
+                    deliveryAgentAddresses.get()) {
+                AddressDataDto addressDataDto = mapToAddressDataDto(deliveryAgentAddress);
                 addressDataDtoList.add(addressDataDto);
             }
         } else {
-            throw new AllDataNotFoundException("No Address Available Of this User");
+            throw new AllDataNotFoundException("No Address Available Of this DeliveryAgent");
         }
         return addressDataDtoList;
     }
@@ -68,20 +67,20 @@ public class UserAddressServiceImple implements UserAddressService {
 
 
     /**
-     * purpose of this function is get All  User Address
+     * purpose of this function is get All  DeliveryAgent Address
      * @return  List<Object>
      */
 
     @Override
-    public List<AddressDataDto> getAllUserAddress() {
+    public List<AddressDataDto> getAllDeliveryAgentAddress() {
         List<AddressDataDto> addressDataDtos = null;
-        Optional<List<UserAddress>> userAddresses = this.userAddressRepository.findDistinctFirstByIdAndEnableTrue();
-        if (userAddresses.isPresent()) {
+        Optional<List<DeliveryAgentAddress>> deliveryAgentAddresses = this.deliveryAgentAddressRepository.findDistinctFirstByIdAndEnableTrue();
+        if (deliveryAgentAddresses.isPresent()) {
             addressDataDtos = new ArrayList<>();
 
-            for (UserAddress userAddress :
-                    userAddresses.get()) {
-                AddressDataDto addressDataDto = mapToAddressDataDto(userAddress);
+            for (DeliveryAgentAddress deliveryAgentAddress :
+                    deliveryAgentAddresses.get()) {
+                AddressDataDto addressDataDto = mapToAddressDataDto(deliveryAgentAddress);
                 addressDataDtos.add(addressDataDto);
             }
         } else {
@@ -93,44 +92,44 @@ public class UserAddressServiceImple implements UserAddressService {
 
 
     /**
-     * purpose of this function is delete User Address By User userId And AddressId
-     * @param userId | AddressId
+     * purpose of this function is delete DeliveryAgent Address By DeliveryAgent deliveryAgentId And AddressId
+     * @param deliveryAgentId | AddressId
      *
      */
     @Override
-    public void deleteUserAddress(Long id,String userId) {
+    public void deleteDeliveryAgentAddress(Long id,String deliveryAgentId) {
 
-         Optional<UserAddress> userAddressOptional = this.userAddressRepository.findByAddressIdAndUserId(id, userId);
+         Optional<DeliveryAgentAddress> deliveryAgentAddressOptional = this.deliveryAgentAddressRepository.findByAddressIdAndDeliveryAgentId(id, deliveryAgentId);
 
-        if(userAddressOptional.isPresent()){
-             UserAddress userAddress = userAddressOptional.get();
-             userAddress.setEnable(false);
-             this.userAddressRepository.save(userAddress);
+        if(deliveryAgentAddressOptional.isPresent()){
+             DeliveryAgentAddress deliveryAgentAddress = deliveryAgentAddressOptional.get();
+             deliveryAgentAddress.setEnable(false);
+             this.deliveryAgentAddressRepository.save(deliveryAgentAddress);
         }
         else {
-            throw new ResourceNotFoundException("Address","User Id And Address Id :-",userId+" And "+id);
+            throw new ResourceNotFoundException("Address","DeliveryAgent Id And Address Id :-",deliveryAgentId+" And "+id);
         }
 
     }
 
 
     /**
-     * purpose of this function is add User Address in database
-     * @param userAddress |
+     * purpose of this function is add DeliveryAgent Address in database
+     * @param deliveryAgentAddress |
      * @Return Void |
      */
     @Override
-    public void addUserAddress(UserAddressDto userAddress) throws Exception {
-        //check user exists or not
+    public void addDeliveryAgentAddress(DeliveryAgentAddressDto deliveryAgentAddress) throws Exception {
+        //check deliveryAgent exists or not
         try {
-            AddressDto addressDto = UserAddressMapper.mapToAddressDto(userAddress, new AddressDto());
+            AddressDto addressDto = DeliveryAgentAddressMapper.mapToAddressDto(deliveryAgentAddress, new AddressDto());
             Address address = AddressMapper.mapToAddress(addressDto, new Address());
             address.setEnable(true);
             AddressDto save = this.addressService.addAddress(AddressMapper.mapToAddressDto(address, new AddressDto()));
-            UserAddress userAddress1 = UserAddressMapper.mapToUserAddress(userAddress, new UserAddress());
-            userAddress1.setAddressId(save.getId());
-            userAddress1.setEnable(true);
-            this.userAddressRepository.save(userAddress1);
+            DeliveryAgentAddress deliveryAgentAddress1 = DeliveryAgentAddressMapper.mapToDeliveryAgentAddress(deliveryAgentAddress, new DeliveryAgentAddress());
+            deliveryAgentAddress1.setAddressId(save.getId());
+            deliveryAgentAddress1.setEnable(true);
+            this.deliveryAgentAddressRepository.save(deliveryAgentAddress1);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -138,26 +137,26 @@ public class UserAddressServiceImple implements UserAddressService {
 
 
     /**
-     * purpose of this function is Update User Address in database
-     * @param userAddress |
+     * purpose of this function is Update DeliveryAgent Address in database
+     * @param deliveryAgentAddress |
      * @Return boolean |
      */
     @Override
-    public boolean updateUserAddress(UserAddressDto userAddress) {
+    public boolean updateDeliveryAgentAddress(DeliveryAgentAddressDto deliveryAgentAddress) {
         boolean f=false;
-         Optional<UserAddress> userAddressOptional = this.userAddressRepository.findByAddressIdAndUserId(userAddress.getId(), userAddress.getUserId());
-         if(userAddressOptional.isPresent()){
-              UserAddress oldUserAddress = userAddressOptional.get();
-              AddressDto addressDto = this.addressService.getAddressById(userAddress.getId());
-               addressDto.setAddress1(userAddress.getAddress1());
-               addressDto.setAddress2(userAddress.getAddress2());
-               addressDto.setAreaId(userAddress.getAreaId());
+         Optional<DeliveryAgentAddress> deliveryAgentAddressOptional = this.deliveryAgentAddressRepository.findByAddressIdAndDeliveryAgentId(deliveryAgentAddress.getId(), deliveryAgentAddress.getDeliveryAgentId());
+         if(deliveryAgentAddressOptional.isPresent()){
+             // DeliveryAgentAddress oldDeliveryAgentAddress = deliveryAgentAddressOptional.get();
+              AddressDto addressDto = this.addressService.getAddressById(deliveryAgentAddress.getId());
+               addressDto.setAddress1(deliveryAgentAddress.getAddress1());
+               addressDto.setAddress2(deliveryAgentAddress.getAddress2());
+               addressDto.setAreaId(deliveryAgentAddress.getAreaId());
                 this.addressService.updateAddress(addressDto);
                f=true;
          }
          else {
              f=false;
-             throw new ResourceNotFoundException("Address","User Id And Address Id :-",userAddress.getUserId()+" And "+userAddress.getId());
+             throw new ResourceNotFoundException("Address","DeliveryAgent Id And Address Id :-",deliveryAgentAddress.getDeliveryAgentId()+" And "+deliveryAgentAddress.getId());
 
          }
         return f;
@@ -166,17 +165,17 @@ public class UserAddressServiceImple implements UserAddressService {
 
 
     /**
-     * purpose of this function is map User Address to AddressDataDto
-     * @param userAddress |
+     * purpose of this function is map DeliveryAgent Address to AddressDataDto
+     * @param deliveryAgentAddress |
      * @Return AddressDataDto |
      */
-     AddressDataDto mapToAddressDataDto(UserAddress userAddress) {
+     AddressDataDto mapToAddressDataDto(DeliveryAgentAddress deliveryAgentAddress) {
         AddressDataDto addressDataDto = new AddressDataDto();
-        addressDataDto.setPersonId(userAddress.getUserId());
+        addressDataDto.setPersonId(deliveryAgentAddress.getDeliveryAgentId());
 
         AddressDto address = null;
-        if (userAddress.getAddressId() != null) {
-            address = this.addressService.getAddressById(userAddress.getAddressId());
+        if (deliveryAgentAddress.getAddressId() != null) {
+            address = this.addressService.getAddressById(deliveryAgentAddress.getAddressId());
             if (address != null) {
                 addressDataDto.setAddressDto(address);
                 AreaDto area = null;

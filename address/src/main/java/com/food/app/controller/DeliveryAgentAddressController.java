@@ -3,9 +3,9 @@ package com.food.app.controller;
 import com.food.app.constant.Constant;
 import com.food.app.dto.ErrorResponseDto;
 import com.food.app.dto.ResponseDto;
-import com.food.app.dto.UserAddressDto;
+import com.food.app.dto.DeliveryAgentAddressDto;
 import com.food.app.exception.ResourceNotFoundException;
-import com.food.app.service.UserAddressService;
+import com.food.app.service.DeliveryAgentAddressService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,28 +23,28 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 
 
-@RequestMapping(value = "/user", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/deliveryAgent", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 @Tag(
-        name = "CRUD REST APIs for User Address",
-        description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE User Address details"
+        name = "CRUD REST APIs for DeliveryAgent Address",
+        description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE DeliveryAgent Address details"
 )
-public class UserAddressController {
+public class DeliveryAgentAddressController {
 
 
     @Autowired
-    private UserAddressService addressService;
+    private DeliveryAgentAddressService addressService;
 
 
     /**
-     * this endpoint provide a new Address Of User
+     * this endpoint provide a new Address Of DeliveryAgent
      *
-     * @param addressDto
+     * @param addressDto |
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Add new Address Of User REST API",
-            description = "REST API to Add New Address Of User"
+            summary = "Add new Address Of DeliveryAgent REST API",
+            description = "REST API to Add New Address Of DeliveryAgent"
     )
     @ApiResponses({
             @ApiResponse(
@@ -62,9 +62,9 @@ public class UserAddressController {
     )
 
     @PostMapping("/")
-    public ResponseEntity<?> addUserAddress(@Validated(UserAddressDto.Create.class) @RequestBody UserAddressDto addressDto) {
+    public ResponseEntity<?> addDeliveryAgentAddress(@Validated(DeliveryAgentAddressDto.Create.class) @RequestBody DeliveryAgentAddressDto addressDto) {
         try {
-            this.addressService.addUserAddress(addressDto);
+            this.addressService.addDeliveryAgentAddress(addressDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(Constant.STATUS_201, Constant.MESSAGE_ADDRESS_201));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -73,13 +73,13 @@ public class UserAddressController {
 
 
     /**
-     * this endpoint provide a Fetch All User Address
+     * this endpoint provide a Fetch All DeliveryAgent Address
      *
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = " Fetch All User Address  REST API",
-            description = "REST API to  Fetch All User Address "
+            summary = " Fetch All DeliveryAgent Address  REST API",
+            description = "REST API to  Fetch All DeliveryAgent Address "
     )
     @ApiResponses({
             @ApiResponse(
@@ -97,10 +97,10 @@ public class UserAddressController {
     )
 
     @GetMapping("/address")
-    public ResponseEntity<?> getAllUserAddress() {
+    public ResponseEntity<?> getAllDeliveryAgentAddress() {
         try {
 
-            return ResponseEntity.status(HttpStatus.OK).body(this.addressService.getAllUserAddress());
+            return ResponseEntity.status(HttpStatus.OK).body(this.addressService.getAllDeliveryAgentAddress());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -108,14 +108,14 @@ public class UserAddressController {
 
 
     /**
-     * this endpoint provide a Fetch User Address  BY UserId
+     * this endpoint provide a Fetch DeliveryAgent Address  BY DeliveryAgentId
      *
-     * @param userId
+     * @param deliveryAgentId |
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Fetch User Address  BY UserId REST API",
-            description = "REST API to Fetch User Address  BY UserId"
+            summary = "Fetch DeliveryAgent Address  BY DeliveryAgentId REST API",
+            description = "REST API to Fetch DeliveryAgent Address  BY DeliveryAgentId"
     )
     @ApiResponses({
             @ApiResponse(
@@ -133,10 +133,10 @@ public class UserAddressController {
     )
 
     @GetMapping("/")
-    public ResponseEntity<?> getAllUserAddressByUserId(@RequestParam("userId")
-                                                       @NotNull(message = "user Id can not be null or empty") String userId) {
+    public ResponseEntity<?> getAllDeliveryAgentAddressByDeliveryAgentId(@RequestParam("deliveryAgentId")
+                                                       @NotNull(message = "deliveryAgent Id can not be null or empty") String deliveryAgentId) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(this.addressService.getUserAddressByUserId(userId));
+            return ResponseEntity.status(HttpStatus.OK).body(this.addressService.getDeliveryAgentAddressByDeliveryAgentId(deliveryAgentId));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -146,14 +146,14 @@ public class UserAddressController {
     }
 
     /**
-     * this endpoint provide a delete User Address  BY UserId ,Address Id
+     * this endpoint provide a delete DeliveryAgent Address  BY DeliveryAgentId ,Address Id
      *
-     * @param userId | AddressId
+     * @param deliveryAgentId | AddressId
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "delete User Address  BY UserId ,Address Id REST API",
-            description = "REST API to delete User Address  BY UserId ,Address Id"
+            summary = "delete DeliveryAgent Address  BY DeliveryAgentId ,Address Id REST API",
+            description = "REST API to delete DeliveryAgent Address  BY DeliveryAgentId ,Address Id"
     )
     @ApiResponses({
             @ApiResponse(
@@ -171,12 +171,12 @@ public class UserAddressController {
     )
 
     @DeleteMapping("/")
-    public ResponseEntity<?> deleteUserAddress(@RequestParam("userId")
-                                               @NotNull(message = "user Id can not be null or empty") String userId,
+    public ResponseEntity<?> deleteDeliveryAgentAddress(@RequestParam("deliveryAgentId")
+                                               @NotNull(message = "deliveryAgent Id can not be null or empty") String deliveryAgentId,
                                                @RequestParam("addressId")
                                                @NotNull(message = "Address Id can not be null or empty") Long addressId) {
         try {
-            this.addressService.deleteUserAddress(addressId, userId);
+            this.addressService.deleteDeliveryAgentAddress(addressId, deliveryAgentId);
             return ResponseEntity.status(HttpStatus.OK).body("Address is Successfully Deleted!");
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -187,14 +187,14 @@ public class UserAddressController {
 
 
     /**
-     * this endpoint provide a new Address Of User
+     * this endpoint provide a new Address Of DeliveryAgent
      *
      * @param addressDto
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
-            summary = "Add new Address Of User REST API",
-            description = "REST API to Add New Address Of User"
+            summary = "Add new Address Of DeliveryAgent REST API",
+            description = "REST API to Add New Address Of DeliveryAgent"
     )
     @ApiResponses({
             @ApiResponse(
@@ -212,9 +212,9 @@ public class UserAddressController {
     )
 
     @PutMapping("/")
-    public ResponseEntity<?> updateUserAddress(@Validated(UserAddressDto.Update.class) @RequestBody UserAddressDto addressDto) {
+    public ResponseEntity<?> updateDeliveryAgentAddress(@Validated(DeliveryAgentAddressDto.Update.class) @RequestBody DeliveryAgentAddressDto addressDto) {
         try {
-            boolean flag = this.addressService.updateUserAddress(addressDto);
+            boolean flag = this.addressService.updateDeliveryAgentAddress(addressDto);
 
             if (flag) {
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(Constant.STATUS_200, Constant.MESSAGE_200));
