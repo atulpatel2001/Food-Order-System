@@ -2,8 +2,6 @@ services:
   network-deploy-service:
     networks:
       - atulpatel2001
-
-
   microservice-db-config:
     extends:
       service: network-deploy-service
@@ -21,10 +19,10 @@ services:
   microservice-base-config:
     extends:
       service: network-deploy-service
-      deploy:
-        resources:
-          limits:
-            memory: 700m
+    deploy:
+      resources:
+        limits:
+          memory: 700m
     depends_on:
       rabbit:
         condition: service_healthy
@@ -41,7 +39,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: default
-      SPRING_CONFIG_IMPORT: configserver:http://localhost:8071/
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_RABBITMQ_HOST: rabbit

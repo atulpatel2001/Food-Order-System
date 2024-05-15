@@ -66,4 +66,7 @@ google jib
 command-generate image-:-mvn package jib:build
 run image:-docker run -p 8080:8080 my-demo-app:latest
 
+apt-get -y update; apt-get -y install curl  for curl command
+
+
 

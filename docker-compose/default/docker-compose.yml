@@ -18,7 +18,7 @@ services:
       service: network-deploy-service
 
   keycloakdb:
-    container_name: keycloak-db
+    container_name: keycloakdb
     ports:
       - "5432:5432"
     environment:
@@ -30,7 +30,6 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.3
     container_name: keycloak
-
     ports:
       - "8072:8080"
     depends_on:
@@ -45,7 +44,7 @@ services:
       service: network-deploy-service
 
   userservicedb:
-    container_name: userservice-db
+    container_name: userservicedb
     ports:
       - "5433:5432"
     environment:
@@ -55,7 +54,7 @@ services:
       service: microservice-db-config
 
   addressservicedb:
-    container_name: addressservice-db
+    container_name: addressservicedb
     ports:
       - "5434:5432"
     environment:
@@ -71,7 +70,7 @@ services:
     ports:
       - "8071:8071"
     healthcheck:
-      test: curl --fail localhost:8071/actuator/health/liveness | grep UP || exit 1
+      test: "curl --fail --silent localhost:8071/actuator/health/liveness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
@@ -90,10 +89,10 @@ services:
       file: common-config.yml
       service: microservice-configserver-config
     healthcheck:
-      test: curl --fail --silent localhost:8073/actuator/health/liveness | grep UP || exit 1
-      interval: 10s
+      test: "curl --fail --silent localhost:8073/actuator/health/liveness | grep UP || exit 1"
+      interval: 20s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 10s
 
     environment:
@@ -101,10 +100,76 @@ services:
 
 
 
+  user:
+    image: "atulpatel2001/user-service:latest"
+    container_name: "user-service"
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/liveness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    depends_on:
+      userservicedb:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "user"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://localhost:5433/userservicedb"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
 
 
 
+  address:
+    image: "atulpatel2001/address-server:latest"
+    container_name: "address-service"
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: "curl --fail --silent localhost:8081/actuator/health/liveness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    depends_on:
+      addressservicedb:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "address"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://localhost:5434/addressservicedb"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
 
+
+  gatewayserver:
+    image: "atulpatel2001/apigateway-sever:latest"
+    container_name: gateway-server
+    ports:
+      - "8074:8074"
+    healthcheck:
+      test: "curl --fail --silent localhost:8074/actuator/health/liveness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    depends_on:
+      address:
+        condition: service_healthy
+      user:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
+networks:
+  atulpatel2001:
+    driver: "bridge"
 
 
 #  read:
@@ -323,6 +388,3 @@ services:
 
 
 
-networks:
-  atulpatel2001:
-    driver: "bridge"
