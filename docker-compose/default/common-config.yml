@@ -42,6 +42,7 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root123
+      POSTGRES_ROOT_PASSWORD: postgres
       SPRING_RABBITMQ_HOST: rabbit
 
 

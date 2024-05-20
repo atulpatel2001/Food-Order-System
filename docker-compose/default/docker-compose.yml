@@ -49,6 +49,7 @@ services:
       - "5433:5432"
     environment:
       POSTGRES_DB: userservicedb
+
     extends:
       file: common-config.yml
       service: microservice-db-config
@@ -116,7 +117,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "user"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://localhost:5433/userservicedb"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://userservicedb:5433/userservicedb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config
@@ -139,7 +140,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "address"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://localhost:5434/addressservicedb"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://addressservicedb:5434/addressservicedb"
     extends:
       file: common-config.yml
       service: microservice-configserver-config

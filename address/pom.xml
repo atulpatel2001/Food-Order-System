@@ -130,13 +130,22 @@
 				<version>2.8.0</version>
 
 				<configuration>
+
 					<from>
 						<image>openjdk:${java.version}-slim</image>
 					</from>
 					<to>
 						<image>${DockerHubUsername}/address-server</image>
 						<tags>latest</tags>
+
 					</to>
+
+
+<!--					<container>-->
+<!--						<environment>-->
+<!--							<ENV_VAR>VALUE</ENV_VAR>-->
+<!--						</environment>-->
+<!--					</container>-->
 				</configuration>
 			</plugin>
 		</plugins>
