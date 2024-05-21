@@ -150,30 +150,7 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8073/eureka/
       SPRING_RABBITMQ_HOST: rabbit
 
-  gatewayserver:
-    image: "atulpatel2001/apigateway-sever:latest"
-    container_name: gateway-server
-    networks:
-      - atulpatel2001
-    ports:
-      - "8074:8074"
-    healthcheck:
-      test: "curl --fail --silent localhost:8074/actuator/health/liveness | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 20
-      start_period: 10s
-    depends_on:
-      eurekaserver:
-        condition: service_healthy
-      user-service:
-        condition: service_healthy
-      address-service:
-        condition: service_healthy
 
-    environment:
-      SPRING_APPLICATION_NAME: "gatewayserver"
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
 
 
 networks:

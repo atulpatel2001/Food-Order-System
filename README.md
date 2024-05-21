@@ -69,4 +69,13 @@ run image:-docker run -p 8080:8080 my-demo-app:latest
 apt-get -y update; apt-get -y install curl  for curl command
 
 
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+kubectl apply -f dashboard-rolebinding.yaml
 
+kubectl -n kubernetes-dashboard create token admin-user
+
+
+kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+kubectl get deployments
+kubectl get services
+kubectl get replicaset
