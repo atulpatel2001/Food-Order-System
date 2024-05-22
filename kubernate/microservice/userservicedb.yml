@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservicedb
+spec:
+  selector:
+    app: userservicedb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservicedb
+  labels:
+    app: userservicedb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userservicedb
+  template:
+    metadata:
+      labels:
+        app: userservicedb
+    spec:
+      containers:
+        - name: userservicedb
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: userservicedb
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: root123
+          readinessProbe:
+            exec:
+              command: ["pg_isready"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            exec:
+              command: ["pg_isready"]
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
