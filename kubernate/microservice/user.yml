@@ -48,7 +48,11 @@ spec:
             - name: SPRING_RABBITMQ_HOST
               value: rabbitmq
             - name: KEYCLOAK_URL
-              value: http://keycloak:8072
+              value: "http://keycloak:8072"
+            - name: KEYCLOAK_CLIENT_ID
+              value: "food_swift"
+            - name: KEYCLOAK_CLIENT_SECRET
+              value: "szzLAWSR0niKQYR7KD4b3rmBkVOOaSSl"
 
           readinessProbe:
             httpGet:
