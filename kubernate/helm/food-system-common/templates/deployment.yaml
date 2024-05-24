@@ -22,6 +22,7 @@ spec:
             - containerPort: {{ .Values.containerPort }}
               protocol: TCP
           env:
+
         {{- if .Values.appname_enabled }}
             - name: SPRING_APPLICATION_NAME
               value: {{ .Values.appName }}
@@ -49,47 +50,37 @@ spec:
 
 
         {{- if .Values.eureka_enabled }}
-              - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Values.global.configMapName }}
                   key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
         {{- end }}
 
-
         {{- if .Values.datasource_url_enabled }}
-              - name: SPRING_DATASOURCE_URL
-                valueFrom:
-                  configMapKeyRef:
-                    name: {{ .Values.global.configMapName }}
-                    key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://{{ .Values.database.host }}:{{ .Values.database.port }}/{{ .Values.database.dbName }}
         {{- end }}
-
 
         {{- if .Values.datasource_password_enabled }}
-              - name: SPRING_DATASOURCE_PASSWORD
-                valueFrom:
-                  configMapKeyRef:
-                    name: {{ .Values.global.configMapName }}
-                    key:  SPRING_DATASOURCE_PASSWORD
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.database.password }}
+
         {{- end }}
 
-
         {{- if .Values.datasource_username_enabled }}
-              - name: SPRING_DATASOURCE_USERNAME
-                valueFrom:
-                  configMapKeyRef:
-                    name: {{ .Values.global.configMapName }}
-                    key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.database.username }}
         {{- end }}
 
 
         {{- if .Values.rabbitmq_enabled }}
-             - name: SPRING_RABBITMQ_HOST
-               valueFrom:
-                 configMapKeyRef:
-                   name: {{ .Values.global.configMapName }}
-                   key: SPRING_RABBITMQ_HOST
+            - name: SPRING_RABBITMQ_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.configMapName }}
+                  key: SPRING_RABBITMQ_HOST
         {{- end }}
 
 
@@ -99,7 +90,14 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Values.global.configMapName }}
-                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI
+                  key: KEYCLOAK_AUTH_URL
+        {{- end }}
+        {{- if .Values.keyclaok_enabled }}
+            - name: KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.configMapName }}
+                  key: KEYCLOAK_URL
         {{- end }}
 
 
@@ -134,4 +132,21 @@ spec:
                   key: SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS
         {{- end }}
 
-{{- end -}}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.httpGet.path }}
+              port: {{ .Values.livenessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.httpGet.path }}
+              port: {{ .Values.readinessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+
+        {{- end -}}

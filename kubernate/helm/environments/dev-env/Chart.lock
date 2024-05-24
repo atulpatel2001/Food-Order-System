@@ -1,0 +1,18 @@
+dependencies:
+- name: food-system-common
+  repository: file://../../food-system-common
+  version: 0.1.0
+- name: configserver
+  repository: file://../../food-system-services/configserver
+  version: 0.1.0
+- name: eurekaserver
+  repository: file://../../food-system-services/eurekaserver
+  version: 0.1.0
+- name: address
+  repository: file://../../food-system-services/address
+  version: 0.1.0
+- name: user
+  repository: file://../../food-system-services/user
+  version: 0.1.0
+digest: sha256:b703031ddb1fa7bde54cb6df640070ee7fc885a605b783307fae49507bfda1fd
+generated: "2024-05-24T11:31:40.4658324+05:30"
