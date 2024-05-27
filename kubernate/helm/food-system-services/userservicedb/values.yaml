@@ -1,25 +1,25 @@
-deploymentName: eurekaserver
-serviceName: eurekaserver
-appLabel: eurekaserver
-appName: eurekaserver
+deploymentName: userservicedb
+serviceName: userservicedb
+appLabel: userservicedb
+appName: userservicedb
 
 replicaCount: 1
 
 image:
-  repository: atulpatel2001/eureka-server
+  repository: postgres
   tag: latest
 
-containerPort: 8073
+containerPort: 5432
 
 service:
-  type: LoadBalancer
-  port: 8073
-  targetPort: 8073
+  type: ClusterIP
+  port: 5432
+  targetPort: 5432
 
 appname_enabled: true
 profile_enabled: true
 config_enabled: true
-eureka_enabled: false
+eureka_enabled: true
 resouceserver_enabled: false
 otel_enabled: false
 kafka_enabled: false
@@ -27,26 +27,28 @@ datasource_url_enabled: false
 datasource_password_enabled: false
 datasource_username_enabled: false
 rabbitmq_enabled: true
-keyclaok_enabled: false
-db_health: false
-dbName: false
-userName: false
-password: false
-microservice_health: true
+keyclaok_enabled: true
+db_health: true
+dbName: true
+userName: true
+password: true
+microservice_health: false
 
+database:
+  host: userservicedb
+  port: 5432
+  username: postgres
+  password: root123
+  dbName: userservicedb
 
 livenessProbe:
-  httpGet:
-    path: /actuator/health/liveness
-    port: 8073
+  command: ["pg_isready"]
   initialDelaySeconds: 15
   periodSeconds: 20
   timeoutSeconds: 5
   failureThreshold: 6
 readinessProbe:
-  httpGet:
-    path: /actuator/health/liveness
-    port: 8073
+  command: ["pg_isready"]
   initialDelaySeconds: 30
   periodSeconds: 20
   timeoutSeconds: 5

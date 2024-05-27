@@ -14,5 +14,11 @@ dependencies:
 - name: user
   repository: file://../../food-system-services/user
   version: 0.1.0
-digest: sha256:b703031ddb1fa7bde54cb6df640070ee7fc885a605b783307fae49507bfda1fd
-generated: "2024-05-24T11:31:40.4658324+05:30"
+- name: userservicedb
+  repository: file://../../food-system-services/userservicedb
+  version: 0.1.0
+- name: addressservicedb
+  repository: file://../../food-system-services/addressservicedb
+  version: 0.1.0
+digest: sha256:e454ca39964d867212361aa4850a4fa0032a549f67ead8cb97a51e155da6e8b5
+generated: "2024-05-27T16:53:45.6010096+05:30"

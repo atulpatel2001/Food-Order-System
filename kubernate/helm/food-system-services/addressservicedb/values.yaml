@@ -1,0 +1,55 @@
+deploymentName: addressservicedb
+serviceName: addressservicedb
+appLabel: addressservicedb
+appName: addressservicedb
+
+replicaCount: 1
+
+image:
+  repository: postgres
+  tag: latest
+
+containerPort: 5432
+
+service:
+  type: ClusterIP
+  port: 5433
+  targetPort: 5432
+
+appname_enabled: true
+profile_enabled: true
+config_enabled: true
+eureka_enabled: true
+resouceserver_enabled: false
+otel_enabled: false
+kafka_enabled: false
+datasource_url_enabled: false
+datasource_password_enabled: false
+datasource_username_enabled: false
+rabbitmq_enabled: false
+keyclaok_enabled: true
+db_health: true
+dbName: true
+userName: true
+password: true
+microservice_health: false
+
+database:
+  host: addressservicedb
+  port: 5433
+  username: postgres
+  password: root123
+  dbName: addressservicedb
+
+livenessProbe:
+  command: ["pg_isready"]
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6
+readinessProbe:
+  command: ["pg_isready"]
+  initialDelaySeconds: 30
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 6

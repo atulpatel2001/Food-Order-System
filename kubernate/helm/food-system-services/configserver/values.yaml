@@ -28,6 +28,11 @@ datasource_password_enabled: false
 datasource_username_enabled: false
 rabbitmq_enabled: true
 keyclaok_enabled: false
+db_health: false
+dbName: false
+userName: false
+password: false
+microservice_health: true
 
 
 livenessProbe:

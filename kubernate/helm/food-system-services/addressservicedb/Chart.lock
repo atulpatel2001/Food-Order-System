@@ -1,0 +1,6 @@
+dependencies:
+- name: food-system-common
+  repository: file://../../food-system-common
+  version: 0.1.0
+digest: sha256:3e53f778e73d282bf6c5b4eeefdb5adc5719fe46cde60c6e7e2bd79a4664b53e
+generated: "2024-05-27T16:29:53.4978544+05:30"

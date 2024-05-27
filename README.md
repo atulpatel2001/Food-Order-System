@@ -70,6 +70,7 @@ apt-get -y update; apt-get -y install curl  for curl command
 
 
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
 kubectl apply -f dashboard-rolebinding.yaml
 
 kubectl -n kubernetes-dashboard create token admin-user

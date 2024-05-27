@@ -1,7 +1,7 @@
-deploymentName: user-service
-serviceName: user-service
-appLabel: user-service
-appName: user-service
+deploymentName: user
+serviceName: user
+appLabel: user
+appName: user
 
 replicaCount: 1
 
@@ -12,7 +12,7 @@ image:
 containerPort: 8080
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 8080
   targetPort: 8080
 
@@ -28,6 +28,11 @@ datasource_password_enabled: true
 datasource_username_enabled: true
 rabbitmq_enabled: true
 keyclaok_enabled: true
+db_health: false
+dbName: false
+userName: false
+password: false
+microservice_health: true
 
 database:
   host: userservicedb
