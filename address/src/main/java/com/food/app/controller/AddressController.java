@@ -43,7 +43,7 @@ public class AddressController {
     /**
      * this endpoint provide a new address to application database
      *
-     * @param addressDto
+     * @param addressDto|
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
@@ -80,7 +80,7 @@ public class AddressController {
     /**
      * this endpoint provide a Fetch address from database
      *
-     * @param addressId
+     * @param addressId|
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
@@ -99,8 +99,8 @@ public class AddressController {
     )
     @GetMapping("/")
     public ResponseEntity<?> getAddressById(@RequestParam("id")
-                                         @NotNull(message = "Address Id can not be null or empty")
-                                         Long addressId) {
+                                            @NotNull(message = "Address Id can not be null or empty")
+                                            Long addressId) {
         try {
             AddressDto address = this.addressService.getAddressById(addressId);
             return ResponseEntity.status(HttpStatus.OK).body(address);
@@ -115,7 +115,7 @@ public class AddressController {
     /**
      * this endpoint provide a Fetch  address by areaId from database
      *
-     * @param areaId
+     * @param areaId|
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
@@ -134,8 +134,8 @@ public class AddressController {
     )
     @GetMapping("/area")
     public ResponseEntity<?> getAddressByAddressId(@RequestParam("areaId")
-                                          @NotNull(message = "Area Id can not be null or empty")
-                                          Long areaId) {
+                                                   @NotNull(message = "Area Id can not be null or empty")
+                                                   Long areaId) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(this.addressService.getAddressByAreaId(areaId));
         } catch (ResourceNotFoundException e) {
@@ -146,12 +146,10 @@ public class AddressController {
     }
 
 
-
-
     /**
      * this endpoint is use for delete address from database
      *
-     * @param addressId
+     * @param addressId|
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
@@ -230,7 +228,7 @@ public class AddressController {
     /**
      * this endpoint is use for update address from database
      *
-     * @param addressDto
+     * @param addressDto|
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
@@ -262,7 +260,7 @@ public class AddressController {
     }
     )
     @PutMapping("/")
-    public ResponseEntity<?> updateAddress( @Validated(AddressDto.Update.class) @RequestBody AddressDto addressDto) {
+    public ResponseEntity<?> updateAddress(@Validated(AddressDto.Update.class) @RequestBody AddressDto addressDto) {
         try {
             boolean b = this.addressService.updateAddress(addressDto);
             if (b) {

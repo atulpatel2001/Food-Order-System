@@ -261,6 +261,7 @@ dashboardsConfigMaps: []
 ## Import datasources from an externally-managed secret, or a secret definition set via Helm values.
 ##
 datasources:
+
   ## @param datasources.secretName The name of an externally-managed secret containing custom datasource files.
   ##
   secretName: ""
@@ -297,10 +298,12 @@ datasources:
         editable: true
         jsonData:
           httpMethod: GET
+
+
       - name: Tempo
         type: tempo
         uid: tempo
-        url: http://tempo-grafana-tempo-query-frontend:3100
+        url: http://tempo-grafana-tempo-query-frontend:3200
         access: proxy
         orgId: 1
         basicAuth: false
@@ -311,6 +314,8 @@ datasources:
           httpMethod: GET
           serviceMap:
             datasourceUid: 'prometheus'
+
+
       - name: Loki
         type: loki
         uid: loki

@@ -268,7 +268,7 @@ public class AreaController {
     /**
      * this endpoint is use for update area from database
      *
-     * @param areaDto
+     * @param areaDto|
      * @return ErrorResponse Dto With ResponseEntity | ResponseDto
      */
     @Operation(
