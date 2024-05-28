@@ -52,3 +52,4 @@ dependencies:
   - name: addressservicedb
     version: 0.1.0
     repository: file://../../food-system-services/addressservicedb
+

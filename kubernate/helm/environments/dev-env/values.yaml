@@ -8,5 +8,5 @@ global:
   otelExporterEndPoint: http://tempo-grafana-tempo-distributor:4317
   otelMetricsExporter: none
   kafkaBrokerURL: kafka-controller-0.kafka-controller-headless.default.svc.cluster.local:9092
-  keyCloakURL: http://keycloak.default.svc.cluster.local:80/
+  keyCloakURL: http://keycloak.default.svc.cluster.local:8072/
   rabbiMQ: "rabbit"

@@ -21,4 +21,4 @@ dependencies:
   repository: file://../../food-system-services/addressservicedb
   version: 0.1.0
 digest: sha256:e454ca39964d867212361aa4850a4fa0032a549f67ead8cb97a51e155da6e8b5
-generated: "2024-05-27T16:53:45.6010096+05:30"
+generated: "2024-05-28T13:00:55.005327+05:30"
