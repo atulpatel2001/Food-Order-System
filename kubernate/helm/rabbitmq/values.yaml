@@ -265,7 +265,7 @@ clustering:
   ## @param clustering.name RabbitMQ cluster name
   ## If not set, a name is generated using the common.names.fullname template
   ##
-  name: "rabbit"
+  name: "rabbitmq"
   ## @param clustering.addressType Switch clustering mode. Either `ip` or `hostname`
   ##
   addressType: hostname

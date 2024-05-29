@@ -97,7 +97,7 @@ spec:
                   key: KEYCLOAK_AUTH_URL
             {{- end }}
             {{- if .Values.keyclaok_enabled }}
-            - name: KEYCLOAK_URL
+            - name: KEYCLOAK_AUTH-SERVER-URL
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Values.global.configMapName }}

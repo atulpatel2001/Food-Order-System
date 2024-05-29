@@ -1,5 +1,5 @@
 apiVersion: v2
-name: dev-env
+name: keycloakdb
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -28,32 +28,3 @@ dependencies:
   - name: food-system-common
     version: 0.1.0
     repository: file://../../food-system-common
-
-  - name: configserver
-    version: 0.1.0
-    repository: file://../../food-system-services/configserver
-
-  - name: eurekaserver
-    version: 0.1.0
-    repository: file://../../food-system-services/eurekaserver
-
-  - name: address
-    version: 0.1.0
-    repository: file://../../food-system-services/address
-
-  - name: user
-    version: 0.1.0
-    repository: file://../../food-system-services/user
-
-  - name: userservicedb
-    version: 0.1.0
-    repository: file://../../food-system-services/userservicedb
-
-  - name: addressservicedb
-    version: 0.1.0
-    repository: file://../../food-system-services/addressservicedb
-
-  - name: keycloakdb
-    version: 0.1.0
-    repository: file://../../food-system-services/keycloakdb
-
