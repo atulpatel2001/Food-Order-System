@@ -1,5 +1,6 @@
 package com.food.gateway.server.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 @RestController
+@SecurityRequirement(name ="keycloak")
 public class SwaggerController {
 
     private final DiscoveryClient discoveryClient;
