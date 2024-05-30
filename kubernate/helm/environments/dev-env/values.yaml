@@ -10,3 +10,7 @@ global:
   kafkaBrokerURL: kafka-controller-0.kafka-controller-headless.default.svc.cluster.local:9092
   keyCloakURL: http://keycloak.default.svc.cluster.local:8072
   rabbiMQ: "rabbitmq"
+  realm: FoodSwift
+  secret: e3Rp63hL7jDSooQ7EyCM28fiM6zllKlP
+  clientId: food_swift
+

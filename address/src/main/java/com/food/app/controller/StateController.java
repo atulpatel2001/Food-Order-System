@@ -33,6 +33,7 @@ import java.util.List;
         name = "CRUD REST APIs for State",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE State details"
 )
+@CrossOrigin("*")
 public class StateController {
 
     @Autowired

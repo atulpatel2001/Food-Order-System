@@ -34,6 +34,7 @@ import java.util.List;
         name = "CRUD REST APIs for Address",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Address details"
 )
+@CrossOrigin("*")
 public class AddressController {
 
     @Autowired

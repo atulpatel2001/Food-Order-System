@@ -1,43 +1,34 @@
-//package com.food.gateway.server.config.swagger;
-//
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springdoc.core.models.GroupedOpenApi;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.cloud.gateway.route.RouteDefinition;
-//import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//
-//@Configuration
-//public class SwaggerUiConfig {
-//    private static final Logger LOGGER = LoggerFactory
-//            .getLogger(SwaggerUiConfig.class);
-//
-//    @Autowired
-//    RouteDefinitionLocator locator;
-//
-//    @Bean
-//    public List<GroupedOpenApi> apis() {
-//        List<GroupedOpenApi> groups = new ArrayList<>();
-//        List<RouteDefinition> definitions = locator
-//                .getRouteDefinitions().collectList().block();
-//        assert definitions != null;
-//        definitions.stream().filter(routeDefinition -> routeDefinition
-//                        .getId()
-//                        .matches(".*-service"))
-//                .forEach(routeDefinition -> {
-//                    String name = routeDefinition.getId()
-//                            .replaceAll("-service", "");
-//                    groups.add(GroupedOpenApi.builder()
-//                            .pathsToMatch("/" + name + "/**").group(name).build());
-//                });
-//        return groups;
-//    }
-//
-//}
+package com.food.gateway.server.config.swagger;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SwaggerUiConfig {
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI().addSecurityItem(new SecurityRequirement().
+                        addList("Bearer Authentication"))
+                .components(new Components().addSecuritySchemes
+                        ("Bearer Authentication", createAPIKeyScheme()))
+                .info(new Info().title("My REST API")
+                        .description("Some custom description of API.")
+                        .version("1.0").contact(new Contact().name("Sallo Szrajbman")
+                                .email( "www.baeldung.com").url("salloszraj@gmail.com"))
+                        .license(new License().name("License of API")
+                                .url("API license URL")));
+    }
+
+    private SecurityScheme createAPIKeyScheme() {
+        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
+    }
+}

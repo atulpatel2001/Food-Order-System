@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for User Address",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE User Address details"
 )
+@CrossOrigin("*")
 public class UserAddressController {
 
 

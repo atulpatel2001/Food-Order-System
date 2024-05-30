@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for Restaurant Address",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Restaurant Address details"
 )
+@CrossOrigin("*")
 public class RestaurantAddressController {
 
 

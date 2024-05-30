@@ -37,6 +37,7 @@ import java.util.List;
         name = "CRUD REST APIs for Role",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Role details"
 )
+@CrossOrigin("*")
 public class RoleController {
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
 

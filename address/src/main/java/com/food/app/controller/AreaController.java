@@ -35,6 +35,7 @@ import java.util.List;
         name = "CRUD REST APIs for Area",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Area details"
 )
+@CrossOrigin("*")
 public class AreaController {
 
     @Autowired

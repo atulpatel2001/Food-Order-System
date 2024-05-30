@@ -14,19 +14,19 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow all origins, you may want to restrict this based on your requirements
+
         config.addAllowedOrigin("*");
 
-        // Allow all HTTP methods
+
         config.addAllowedMethod("*");
 
-        // Allow all headers
+
         config.addAllowedHeader("*");
 
-        // Allow credentials
+
         config.setAllowCredentials(true);
 
-        // Configure URL mapping
+
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);

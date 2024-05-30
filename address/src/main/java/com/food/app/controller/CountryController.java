@@ -33,6 +33,7 @@ import java.util.List;
         name = "CRUD REST APIs for Country",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Country details"
 )
+@CrossOrigin("*")
 public class CountryController {
 
     @Autowired
@@ -101,8 +102,8 @@ public class CountryController {
     )
     @GetMapping("/")
     public ResponseEntity<?> getCountryById(@RequestParam("id")
-                                         @NotNull(message = "Country Id can not be null or empty")
-                                         Long countryId) {
+                                            @NotNull(message = "Country Id can not be null or empty")
+                                            Long countryId) {
         try {
             CountryDto country = this.countryService.getCountryById(countryId);
             return ResponseEntity.status(HttpStatus.OK).body(country);
@@ -228,7 +229,7 @@ public class CountryController {
     }
     )
     @PutMapping("/")
-    public ResponseEntity<?> updateCountry( @Validated(CountryDto.Update.class) @RequestBody CountryDto countryDto) {
+    public ResponseEntity<?> updateCountry(@Validated(CountryDto.Update.class) @RequestBody CountryDto countryDto) {
         try {
             boolean b = this.countryService.updateCountry(countryDto);
             if (b) {

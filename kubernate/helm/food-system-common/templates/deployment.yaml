@@ -104,6 +104,29 @@ spec:
                   key: KEYCLOAK_URL
             {{- end }}
 
+            {{- if .Values.realm_enable }}
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.configMapName }}
+                  key: KEYCLOAK_REALM
+            {{- end }}
+            {{- if .Values.secret_enable }}
+            - name: KEYCLOAK_CREDENTIALS_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.configMapName }}
+                  key: KEYCLOAK_CREDENTIALS_SECRET
+            {{- end }}
+
+            {{- if .Values.clientId_enable }}
+            - name: KEYCLOAK_RESOURCE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.configMapName }}
+                  key: KEYCLOAK_RESOURCE
+            {{- end }}
+
             {{- if .Values.otel_enabled }}
             - name: JAVA_TOOL_OPTIONS
               valueFrom:

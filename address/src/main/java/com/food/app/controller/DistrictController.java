@@ -33,6 +33,7 @@ import java.util.List;
         name = "CRUD REST APIs for District",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE District details"
 )
+@CrossOrigin("*")
 public class DistrictController {
 
     @Autowired

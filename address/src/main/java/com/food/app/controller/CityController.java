@@ -34,6 +34,7 @@ import java.util.List;
         name = "CRUD REST APIs for City",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE City details"
 )
+@CrossOrigin("*")
 public class CityController {
 
     @Autowired

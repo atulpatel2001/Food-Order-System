@@ -39,6 +39,7 @@ import java.util.List;
         name = "CRUD REST APIs for Users",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE Users details"
 )
+@CrossOrigin("*")
 public class UserController {
 
 

@@ -14,4 +14,7 @@ data:
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.global.otelExporterEndPoint }}
   OTEL_METRICS_EXPORTER: {{ .Values.global.otelMetricsExporter }}
   SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: {{ .Values.global.kafkaBrokerURL }}
+  KEYCLOAK_REALM: {{ .Values.global.realm}}
+  KEYCLOAK_CREDENTIALS_SECRET: {{ .Values.global.secret}}
+  KEYCLOAK_RESOURCE: {{ .Values.global.clientId}}
 {{- end -}}

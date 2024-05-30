@@ -5,13 +5,12 @@ Create a food order system like a swiggy
 1) implement a User-service:-port 8080
    Require :Db Config ,KeyCloak Db Config
 
-   KeyCloak :  first command :-docker run -d -p 8072:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin
-   quay.io/keycloak/keycloak:24.0.3 start-dev
-   Second Command for keycloak db:- docker run -d --name keycloakdb -e POSTGRES_PASSWORD=root123 -p 5432:5432 -e
+   KeyCloak :  first command :-docker run -d -p 8072:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:24.0.3 start-dev
+  
+2) Second Command for keycloak db:- docker run -d --name keycloakdb -e POSTGRES_PASSWORD=root123 -p 5432:5432 -~~e~~
    POSTGRES_DB=keyclaokdb -d postgres
 
-   Db Config:- docker run -d --name userservicedb -e POSTGRES_PASSWORD=root123 -p 5433:5432 -e POSTGRES_DB=userservicedb -d
-   postgres
+   Db Config:- docker run -d --name userservicedb -e POSTGRES_PASSWORD=root123 -p 5433:5432 -e POSTGRES_DB=userservicedb -d postgres
 
 2) Config server:-
 port:8071
@@ -28,8 +27,7 @@ command:- docker run -d -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rab
 
 5)Address Management sevice:-
 Db Config:-
-command docker run -d --name addressservicedb -e POSTGRES_PASSWORD=root123 -p 5434:5432 -e POSTGRES_DB=addressservicedb
--d postgres
+command docker run -d --name addressservicedb -e POSTGRES_PASSWORD=root123 -p 5434:5432 -e POSTGRES_DB=addressservicedb -d postgres
 
 create image :
 mvn clean: Cleans the project directory.

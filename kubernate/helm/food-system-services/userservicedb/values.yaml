@@ -17,22 +17,25 @@ service:
   targetPort: 5432
 
 appname_enabled: true
-profile_enabled: true
-config_enabled: true
-eureka_enabled: true
+profile_enabled: false
+config_enabled: false
+eureka_enabled: false
 resouceserver_enabled: false
 otel_enabled: false
 kafka_enabled: false
 datasource_url_enabled: false
 datasource_password_enabled: false
 datasource_username_enabled: false
-rabbitmq_enabled: true
-keyclaok_enabled: true
+rabbitmq_enabled: false
+keyclaok_enabled: false
 db_health: true
 dbName: true
 userName: true
 password: true
 microservice_health: false
+realm_enable: false
+secret_enable: false
+clientId_enable: false
 
 database:
   host: userservicedb

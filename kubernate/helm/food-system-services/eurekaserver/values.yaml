@@ -33,6 +33,9 @@ dbName: false
 userName: false
 password: false
 microservice_health: true
+realm_enable: false
+secret_enable: false
+clientId_enable: false
 
 
 livenessProbe:

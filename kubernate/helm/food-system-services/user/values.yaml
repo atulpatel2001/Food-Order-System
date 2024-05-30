@@ -28,6 +28,9 @@ datasource_password_enabled: true
 datasource_username_enabled: true
 rabbitmq_enabled: true
 keyclaok_enabled: true
+realm_enable: true
+secret_enable: true
+clientId_enable: true
 db_health: false
 dbName: false
 userName: false

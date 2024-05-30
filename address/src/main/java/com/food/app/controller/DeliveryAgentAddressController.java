@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
         name = "CRUD REST APIs for DeliveryAgent Address",
         description = "CRUD REST APIs  CREATE, UPDATE, FETCH AND DELETE DeliveryAgent Address details"
 )
+@CrossOrigin("*")
 public class DeliveryAgentAddressController {
 
 

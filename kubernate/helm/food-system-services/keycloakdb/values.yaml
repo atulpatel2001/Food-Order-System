@@ -17,7 +17,7 @@ service:
   targetPort: 5432
 
 appname_enabled: true
-profile_enabled: true
+profile_enabled: false
 config_enabled: false
 eureka_enabled: false
 resouceserver_enabled: false
@@ -33,6 +33,9 @@ dbName: true
 userName: true
 password: true
 microservice_health: false
+realm_enable: false
+secret_enable: false
+clientId_enable: false
 
 database:
   host: keycloakdb
