@@ -3,7 +3,7 @@ global:
   activeProfile: default
   configServerURL: configserver:http://configserver:8071/
   eurekaServerURL: http://eurekaserver:8073/eureka/
-  keyCloakAuthURL: http://keycloak.default.svc.cluster.local:8072/realms/master/protocol/openid-connect/certs
+  keyCloakAuthURL: http://keycloak.default.svc.cluster.local:8072/realms/FoodSwift/protocol/openid-connect/certs
   openTelemetryJavaAgent: "-javaagent:/app/libs/opentelemetry-javaagent-1.32.0.jar"
   otelExporterEndPoint: http://tempo-grafana-tempo-distributor:4317
   otelMetricsExporter: none
@@ -11,6 +11,6 @@ global:
   keyCloakURL: http://keycloak.default.svc.cluster.local:8072
   rabbiMQ: "rabbitmq"
   realm: FoodSwift
-  secret: e3Rp63hL7jDSooQ7EyCM28fiM6zllKlP
+  secret: iYiZHrvwD7a8U0Jhfq19Wk3UlQDUjITi
   clientId: food_swift
 

@@ -1,60 +1,48 @@
-deploymentName: address
-serviceName: address
-appLabel: address
-appName: address
+deploymentName: gatewayserver
+serviceName: gatewayserver
+appLabel: gatewayserver
+appName: gatewayserver
 
 replicaCount: 1
 
 image:
-  repository: atulpatel2001/address-server
+  repository: atulpatel2001/apigateway-sever
   tag: latest
 
-containerPort: 8081
+containerPort: 8074
 
 service:
-  type: ClusterIP
-  port: 8081
-  targetPort: 8081
-
+  type: LoadBalancer
+  port: 8074
+  targetPort: 8074
 
 appname_enabled: true
 profile_enabled: true
 config_enabled: true
 eureka_enabled: true
-resouceserver_enabled: false
+resouceserver_enabled: true
 otel_enabled: false
 kafka_enabled: false
-datasource_url_enabled: true
-datasource_password_enabled: true
-datasource_username_enabled: true
+datasource_url_enabled: false
+datasource_password_enabled: false
+datasource_username_enabled: false
 rabbitmq_enabled: true
-keyclaok_enabled: false
+keyclaok_enabled: true
+realm_enable: true
+secret_enable: true
+clientId_enable: true
 db_health: false
 dbName: false
 userName: false
 password: false
 microservice_health: true
-realm_enable: false
-secret_enable: false
-clientId_enable: false
-
-
-
-
-database:
-  host: addressservicedb
-  port: 5433
-  username: postgres
-  password: root123
-  dbName: addressservicedb
-
 
 
 
 livenessProbe:
   httpGet:
     path: /actuator/health/liveness
-    port: 8081
+    port: 8074
   initialDelaySeconds: 15
   periodSeconds: 20
   timeoutSeconds: 5
@@ -62,7 +50,7 @@ livenessProbe:
 readinessProbe:
   httpGet:
     path: /actuator/health/liveness
-    port: 8081
+    port: 8074
   initialDelaySeconds: 30
   periodSeconds: 20
   timeoutSeconds: 5

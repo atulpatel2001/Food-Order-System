@@ -23,5 +23,8 @@ dependencies:
 - name: keycloakdb
   repository: file://../../food-system-services/keycloakdb
   version: 0.1.0
-digest: sha256:70c05f8a44299e9ee60b5374c1acfbea74a635cc0e9e7197d8261f235d0eff39
-generated: "2024-05-29T17:21:04.6516517+05:30"
+- name: gatewayserver
+  repository: file://../../food-system-services/apigatewayserver
+  version: 0.1.0
+digest: sha256:0311398040a6f7fd09d2d2d8ec39987cb81f0f1a2de4679fa4595355407c2a60
+generated: "2024-05-31T14:35:29.8545572+05:30"

@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 @Configuration
-
 @Getter
 public class KeyCloakProvider {
 
